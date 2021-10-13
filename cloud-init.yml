@@ -1,0 +1,17 @@
+#cloud-config
+locale: en_US.UTF-8
+packages:
+  - make
+  - cmake
+  - gcc
+  - g++
+  - libncurses5-dev
+  - libssl-dev
+  - libsodium-dev
+  - libreadline-dev
+  - zlib1g-dev
+
+runcmd:
+  - wget https://github.com/SoftEtherVPN/SoftEtherVPN_Stable/releases/download/${version}/softether-vpnserver-${version}-${date}-linux-x64-64bit.tar.gz
+  - tar xzvf softether-vpnserver-v4.38-9760-rtm-2021.08.17-linux-x64-64bit.tar.gz
+

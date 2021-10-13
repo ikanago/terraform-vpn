@@ -24,11 +24,13 @@ resource "google_compute_instance" "default" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-9"
+      image = "ubuntu-os-cloud/ubuntu-2004-lts"
     }
   }
 
-  metadata_startup_script = "sudo apt-get update; sudo apt-get install -yq build-essential"
+  metadata = {
+    user-data = templatefile("cloud-init.yml", { version = "v4.38-9760-rtm", date = "2021.08.17" })
+  }
 
   network_interface {
     network = "default"
@@ -36,5 +38,16 @@ resource "google_compute_instance" "default" {
     access_config {
      // Include this section to give the VM an external ip address
     }
+  }
+}
+
+resource "google_compute_firewall" "ssh" {
+  name = "allow-ssh"
+  network = "default"
+  direction = "INGRESS"
+
+  allow {
+    protocol = "tcp"
+    ports = ["22"]
   }
 }
